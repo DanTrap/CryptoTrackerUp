@@ -10,11 +10,11 @@ android {
     val minSdkVersion: Int by rootProject.extra
     val targetSdkVersion: Int by rootProject.extra
 
-    namespace = "ru.mobileup.template"
+    namespace = "com.dantrap.cryptotracker"
     compileSdk = targetSdkVersion
 
     defaultConfig {
-        applicationId = "ru.mobileup.template"
+        defaultConfig.applicationId = "com.dantrap.cryptotracker"
         minSdk = minSdkVersion
         targetSdk = targetSdkVersion
         versionCode = 1
