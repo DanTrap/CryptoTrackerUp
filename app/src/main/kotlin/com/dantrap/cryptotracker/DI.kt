@@ -1,4 +1,4 @@
-package ru.mobileup.template
+package com.dantrap.cryptotracker
 
 import ru.mobileup.template.core.coreModule
 import ru.mobileup.template.features.pokemons.pokemonsModule

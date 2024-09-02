@@ -1,4 +1,4 @@
-package ru.mobileup.template
+package com.dantrap.cryptotracker
 
 import android.app.Application
 import android.content.Context

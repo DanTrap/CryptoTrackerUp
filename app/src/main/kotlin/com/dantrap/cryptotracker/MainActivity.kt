@@ -1,4 +1,4 @@
-package ru.mobileup.template
+package com.dantrap.cryptotracker
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
