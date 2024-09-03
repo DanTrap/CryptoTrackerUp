@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--List screen-->
+    <string name="list_of_cryptocurrencies">List of cryptocurrencies</string>
+    <string name="price_format">%1$s %2$s</string>
+    <string name="coins_empty_description">Coins are not found</string>
+</resources>
