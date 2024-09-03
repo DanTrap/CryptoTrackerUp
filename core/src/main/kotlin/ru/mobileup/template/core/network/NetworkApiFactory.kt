@@ -8,6 +8,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.header
 import io.ktor.serialization.kotlinx.json.json
 
 // import ru.mobileup.template.core.network.createKtorLogger
@@ -18,6 +19,7 @@ import io.ktor.serialization.kotlinx.json.json
 class NetworkApiFactory(
     private val loggingEnabled: Boolean,
     private val backendUrl: String,
+    private val apiKey: String = "",
     private val httpClientEngine: HttpClientEngine
 ) {
     companion object {
@@ -60,7 +62,9 @@ class NetworkApiFactory(
             }
 
             if (authorized) {
-                // TODO: install Auth component and set it up
+                defaultRequest {
+                    header("x-cg-demo-api-key", apiKey)
+                }
             }
 
             setupErrorConverter()
