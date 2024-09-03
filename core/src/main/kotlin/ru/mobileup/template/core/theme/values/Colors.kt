@@ -17,6 +17,8 @@ val LightAppColors = CustomColors(
         primary = Color(0xFF000000),
         secondary = Color(0xFF797979),
         invert = Color(0xFFFFFFFF),
+        positiveChangeColor = Color(0xFF2A9D8F),
+        negativeChangeColor = Color(0xFFEB5757),
     ),
     icon = IconColors(
         primary = Color(0xFF000000),
@@ -24,8 +26,8 @@ val LightAppColors = CustomColors(
         invert = Color(0xFFFFFFFF),
     ),
     button = ButtonColors(
-        primary = Color(0xFF6750A4),
-        secondary = Color(0xFFFFFFFF),
+        primary = Color(0xFFFF9F00),
+        secondary = Color.Black.copy(alpha = 0.18f),
     )
 )
 
