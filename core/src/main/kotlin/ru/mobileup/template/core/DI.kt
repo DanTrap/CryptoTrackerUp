@@ -18,7 +18,7 @@ import ru.mobileup.template.core.network.NetworkApiFactory
 import ru.mobileup.template.core.network.createOkHttpEngine
 import ru.mobileup.template.core.permissions.PermissionService
 
-fun coreModule(backendUrl: String) = module {
+fun coreModule(backendUrl: String, apiKey: String = "") = module {
     single { ActivityProvider() }
     single<NetworkConnectivityProvider> { AndroidNetworkConnectivityProvider(get()) }
     single { ReplicaClient(get()) }
@@ -30,6 +30,7 @@ fun coreModule(backendUrl: String) = module {
         NetworkApiFactory(
             loggingEnabled = BuildConfig.DEBUG,
             backendUrl = backendUrl,
+            apiKey = apiKey,
             httpClientEngine = get()
         )
     }

@@ -15,12 +15,13 @@ import ru.mobileup.template.core.theme.AppTheme
 import ru.mobileup.template.core.theme.custom.CustomTheme
 import ru.mobileup.template.core.utils.LocalSystemBarsSettings
 import ru.mobileup.template.core.utils.accumulate
+import ru.mobileup.template.features.coins.presentation.CoinsUi
 import ru.mobileup.template.features.pokemons.presentation.PokemonsUi
 
 @Composable
 fun RootUi(
     component: RootComponent,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val childStack by component.childStack.collectAsState()
 
@@ -29,6 +30,7 @@ fun RootUi(
     Children(childStack, modifier) { child ->
         when (val instance = child.instance) {
             is RootComponent.Child.Pokemons -> PokemonsUi(instance.component)
+            is RootComponent.Child.Coins -> CoinsUi(instance.component)
         }
     }
 

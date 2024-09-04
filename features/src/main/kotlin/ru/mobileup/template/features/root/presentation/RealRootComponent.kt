@@ -8,18 +8,19 @@ import kotlinx.serialization.Serializable
 import ru.mobileup.template.core.ComponentFactory
 import ru.mobileup.template.core.createMessageComponent
 import ru.mobileup.template.core.utils.toStateFlow
+import ru.mobileup.template.features.coins.createCoinsComponent
 import ru.mobileup.template.features.pokemons.createPokemonsComponent
 
 class RealRootComponent(
     componentContext: ComponentContext,
-    private val componentFactory: ComponentFactory
+    private val componentFactory: ComponentFactory,
 ) : ComponentContext by componentContext, RootComponent {
 
     private val navigation = StackNavigation<ChildConfig>()
 
     override val childStack = childStack(
         source = navigation,
-        initialConfiguration = ChildConfig.Pokemons,
+        initialConfiguration = ChildConfig.Coins,
         serializer = ChildConfig.serializer(),
         handleBackButton = true,
         childFactory = ::createChild
@@ -31,11 +32,17 @@ class RealRootComponent(
 
     private fun createChild(
         config: ChildConfig,
-        componentContext: ComponentContext
+        componentContext: ComponentContext,
     ): RootComponent.Child = when (config) {
-        is ChildConfig.Pokemons -> {
+        ChildConfig.Pokemons -> {
             RootComponent.Child.Pokemons(
                 componentFactory.createPokemonsComponent(componentContext)
+            )
+        }
+
+        ChildConfig.Coins -> {
+            RootComponent.Child.Coins(
+                componentFactory.createCoinsComponent(componentContext)
             )
         }
     }
@@ -45,5 +52,8 @@ class RealRootComponent(
 
         @Serializable
         data object Pokemons : ChildConfig
+
+        @Serializable
+        data object Coins : ChildConfig
     }
 }

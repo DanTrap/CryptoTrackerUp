@@ -1,5 +1,7 @@
 digraph {
+coins
 pokemons
 root
+root -> coins
 root -> pokemons
 }

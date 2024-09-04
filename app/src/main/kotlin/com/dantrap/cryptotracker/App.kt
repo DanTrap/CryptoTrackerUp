@@ -5,6 +5,7 @@ import android.content.Context
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.Severity
 import org.koin.core.Koin
+import ru.mobileup.template.core.BuildConfig
 import ru.mobileup.template.core.ComponentFactory
 import ru.mobileup.template.core.KoinProvider
 import ru.mobileup.template.core.debug_tools.DebugTools
