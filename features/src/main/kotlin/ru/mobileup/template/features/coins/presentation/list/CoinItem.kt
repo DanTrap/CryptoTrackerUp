@@ -31,8 +31,8 @@ import ru.mobileup.template.features.coins.domain.Currency
 internal fun CoinItem(
     coin: Coin,
     currency: Currency,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Surface(
         modifier = modifier.clickable(onClick = onClick)

@@ -73,8 +73,8 @@ internal fun CoinListUi(
 private fun CoinCurrencyTopBar(
     selectedCurrency: Currency,
     currencies: List<Currency>,
-    modifier: Modifier = Modifier,
     onChipClick: (Currency) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
@@ -102,8 +102,8 @@ private fun CoinCurrencyTopBar(
 private fun CurrencyChipsRow(
     selectedCurrency: Currency,
     currencies: List<Currency>,
-    modifier: Modifier = Modifier,
     onChipClick: (Currency) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     FlowRow(
         modifier = modifier,
@@ -123,8 +123,8 @@ private fun CurrencyChipsRow(
 private fun CoinsListContent(
     coins: List<Coin>,
     selectedCurrency: Currency,
-    modifier: Modifier = Modifier,
     onCoinClick: (id: String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier,

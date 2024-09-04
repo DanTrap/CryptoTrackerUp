@@ -22,9 +22,9 @@ import ru.mobileup.template.features.coins.domain.Currency
 @Composable
 fun CoinCurrencyItem(
     text: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     isSelected: Boolean = false,
-    onClick: () -> Unit,
 ) {
     FilterChip(
         modifier = modifier,
