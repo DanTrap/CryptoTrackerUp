@@ -3,8 +3,7 @@ package ru.mobileup.template.features.coins.data
 import me.aartikov.replica.client.ReplicaClient
 import me.aartikov.replica.keyed.KeyedPhysicalReplica
 import me.aartikov.replica.single.ReplicaSettings
-import ru.mobileup.template.features.coins.data.dto.CoinResponse
-import ru.mobileup.template.features.coins.data.dto.toDomain
+import ru.mobileup.template.features.coins.data.dto.CoinResponse.Companion.toDomain
 import ru.mobileup.template.features.coins.domain.Coin
 import ru.mobileup.template.features.coins.domain.Currency
 import kotlin.time.Duration.Companion.seconds
@@ -25,6 +24,6 @@ class CoinRepositoryImpl(
                 )
             }
         ) { currency ->
-            api.getCoins(currency.name.lowercase()).map(CoinResponse::toDomain)
+            api.getCoins(currency.name.lowercase()).map { it.toDomain() }
         }
 }
