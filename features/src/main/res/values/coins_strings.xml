@@ -4,4 +4,9 @@
     <string name="list_of_cryptocurrencies">List of cryptocurrencies</string>
     <string name="price_format">%1$s %2$s</string>
     <string name="coins_empty_description">Coins are not found</string>
+
+    <!--Details screen-->
+    <string name="description">Description</string>
+    <string name="categories">Categories</string>
+    <string name="content_description_arrow_back">Arrow back</string>
 </resources>
