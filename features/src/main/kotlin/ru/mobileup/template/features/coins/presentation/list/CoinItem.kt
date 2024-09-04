@@ -128,14 +128,7 @@ private fun CoinPriceDetails(
 private fun CoinItemPreview() {
     AppTheme {
         CoinItem(
-            coin = Coin(
-                id = "tether",
-                name = "Tether",
-                symbol = "USDT",
-                image = "f",
-                currentPrice = 435.01,
-                priceChangePercentage24h = -1.345
-            ),
+            coin = Coin.MOCK,
             currency = Currency.USD,
             onClick = {}
         )
