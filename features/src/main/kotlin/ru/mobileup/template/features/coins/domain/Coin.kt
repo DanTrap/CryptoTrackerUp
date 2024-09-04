@@ -17,5 +17,31 @@ data class Coin(
             currentPrice = 435.01,
             priceChangePercentage24h = -1.345
         )
+        val MOCKS = listOf(
+            Coin(
+                id = "bitcoin",
+                name = "Bitcoin",
+                symbol = "BTC",
+                image = "",
+                currentPrice = 70187.0,
+                priceChangePercentage24h = 3.12502
+            ),
+            Coin(
+                id = "ethereum",
+                name = "Ethereum",
+                symbol = "ETH",
+                image = "",
+                currentPrice = 2504.59,
+                priceChangePercentage24h = -0.66152
+            ),
+            Coin(
+                id = "tether",
+                name = "Tether",
+                symbol = "USDT",
+                image = "",
+                currentPrice = 1.0,
+                priceChangePercentage24h = -0.00213665816804
+            ),
+        )
     }
 }
