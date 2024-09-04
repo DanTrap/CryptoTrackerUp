@@ -19,7 +19,7 @@ import io.ktor.serialization.kotlinx.json.json
 class NetworkApiFactory(
     private val loggingEnabled: Boolean,
     private val backendUrl: String,
-    private val apiKey: String = "",
+    private val apiKey: String,
     private val httpClientEngine: HttpClientEngine
 ) {
     companion object {
