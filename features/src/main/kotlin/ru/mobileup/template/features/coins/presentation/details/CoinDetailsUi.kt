@@ -3,12 +3,12 @@ package ru.mobileup.template.features.coins.presentation.details
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -46,22 +46,19 @@ fun CoinDetailsUi(
 ) {
     val pokemonState by component.coinDetailsState.collectAsState()
 
-    Surface(
+    Column(
         modifier = modifier
             .fillMaxSize()
-            .systemBarsPadding(),
-        color = CustomTheme.colors.background.screen
+            .navigationBarsPadding()
     ) {
-        Column(modifier = modifier.fillMaxSize()) {
-            CoinDetailsTopBar(title = pokemonState.data?.name ?: "")
-            PullRefreshLceWidget(
-                state = pokemonState,
-                onRefresh = component::onRefresh,
-                onRetryClick = component::onRetryClick
-            ) { coinDetails, refreshing ->
-                CoinDetailsContent(coinDetails = coinDetails)
-                RefreshingProgress(refreshing, modifier = Modifier.padding(top = 4.dp))
-            }
+        CoinDetailsTopBar(title = pokemonState.data?.name ?: "")
+        PullRefreshLceWidget(
+            state = pokemonState,
+            onRefresh = component::onRefresh,
+            onRetryClick = component::onRetryClick
+        ) { coinDetails, refreshing ->
+            CoinDetailsContent(coinDetails = coinDetails)
+            RefreshingProgress(refreshing, modifier = Modifier.padding(top = 4.dp))
         }
     }
 }
@@ -76,7 +73,9 @@ private fun CoinDetailsTopBar(title: String, modifier: Modifier = Modifier) {
         shadowElevation = 4.dp
     ) {
         Row(
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier
+                .fillMaxWidth()
+                .statusBarsPadding(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(
@@ -109,9 +108,9 @@ private fun CoinDetailsContent(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Spacer(Modifier)
         AsyncImage(
             modifier = Modifier
+                .padding(top = 16.dp)
                 .size(96.dp)
                 .align(Alignment.CenterHorizontally),
             model = ImageRequest.Builder(LocalContext.current)
@@ -126,10 +125,10 @@ private fun CoinDetailsContent(
             body = coinDetails.description
         )
         TitleBodyItem(
+            modifier = Modifier.padding(bottom = 16.dp),
             title = stringResource(R.string.categories),
             body = coinDetails.categories.joinToString()
         )
-        Spacer(Modifier)
     }
 }
 
