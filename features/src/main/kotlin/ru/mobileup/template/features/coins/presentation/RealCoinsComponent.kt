@@ -38,7 +38,7 @@ internal class RealCoinsComponent(
 
         is ChildConfig.Details -> {
             CoinsComponent.Child.Details(
-                componentFactory.createCoinDetailsComponent(config.coinId, componentContext)
+                componentFactory.createCoinDetailsComponent(componentContext, config.coinId)
             )
         }
     }

@@ -13,9 +13,9 @@ import ru.mobileup.template.features.coins.domain.Currency
 
 class RealCoinListComponent(
     componentContext: ComponentContext,
+    private val onOutput: (CoinListComponent.Output) -> Unit,
     coinRepository: CoinRepository,
     errorHandler: ErrorHandler,
-    private val onOutput: (CoinListComponent.Output) -> Unit,
 ) : ComponentContext by componentContext, CoinListComponent {
 
     init {

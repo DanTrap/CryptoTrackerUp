@@ -7,8 +7,8 @@ import ru.mobileup.template.core.utils.observe
 import ru.mobileup.template.features.coins.data.CoinRepository
 
 class RealCoinDetailsComponent(
-    coinId: String,
     componentContext: ComponentContext,
+    coinId: String,
     coinRepository: CoinRepository,
     errorHandler: ErrorHandler,
 ) : ComponentContext by componentContext, CoinDetailsComponent {

@@ -30,12 +30,12 @@ fun ComponentFactory.createCoinListComponent(
     componentContext: ComponentContext,
     onOutput: (CoinListComponent.Output) -> Unit,
 ): CoinListComponent {
-    return RealCoinListComponent(componentContext, get(), get(), onOutput)
+    return RealCoinListComponent(componentContext, onOutput, get(), get())
 }
 
 fun ComponentFactory.createCoinDetailsComponent(
-    coinId: String,
     componentContext: ComponentContext,
+    coinId: String,
 ): CoinDetailsComponent {
-    return RealCoinDetailsComponent(coinId, componentContext, get(), get())
+    return RealCoinDetailsComponent(componentContext, coinId, get(), get())
 }
