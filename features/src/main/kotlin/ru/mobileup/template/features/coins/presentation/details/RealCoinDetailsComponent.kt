@@ -13,7 +13,7 @@ class RealCoinDetailsComponent(
     errorHandler: ErrorHandler,
 ) : ComponentContext by componentContext, CoinDetailsComponent {
 
-    private val coinDetailsReplica = coinRepository.coinDetailsById.withKey(coinId)
+    private val coinDetailsReplica = coinRepository.coinDetailsReplica.withKey(coinId)
 
     override val coinDetailsState = coinDetailsReplica.observe(this, errorHandler)
 

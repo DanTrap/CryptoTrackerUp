@@ -34,7 +34,7 @@ class RealCoinListComponent(
 
     override val selectedCurrency = MutableStateFlow(currencies[0])
 
-    private val coinsReplica = coinRepository.coins
+    private val coinsReplica = coinRepository.coinsReplica
         .keepPreviousData().withKey(selectedCurrency)
 
     override val coinsState = coinsReplica.observe(this, errorHandler)
