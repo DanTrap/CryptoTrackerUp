@@ -25,6 +25,7 @@ class NetworkApiFactory(
     companion object {
         private const val CONNECT_TIMEOUT_MILLISECONDS = 30000L
         private const val READ_WRITE_TIMEOUT_MILLISECONDS = 60000L
+        private const val API_KEY_HEADER = "x-cg-demo-api-key"
     }
 
     private val json = createDefaultJson()
@@ -63,7 +64,7 @@ class NetworkApiFactory(
 
             if (authorized) {
                 defaultRequest {
-                    header("x-cg-demo-api-key", apiKey)
+                    header(API_KEY_HEADER, apiKey)
                 }
             }
 
