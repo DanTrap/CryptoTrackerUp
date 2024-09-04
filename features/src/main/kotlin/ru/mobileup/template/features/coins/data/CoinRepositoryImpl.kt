@@ -2,6 +2,7 @@ package ru.mobileup.template.features.coins.data
 
 import me.aartikov.replica.client.ReplicaClient
 import me.aartikov.replica.keyed.KeyedPhysicalReplica
+import me.aartikov.replica.keyed.KeyedReplicaSettings
 import me.aartikov.replica.single.ReplicaSettings
 import ru.mobileup.template.features.coins.data.dto.CoinDetailsResponse.Companion.toDomain
 import ru.mobileup.template.features.coins.data.dto.CoinResponse.Companion.toDomain
@@ -39,7 +40,8 @@ class CoinRepositoryImpl(
                     staleTime = 10.minutes,
                     clearTime = 60.seconds
                 )
-            }
+            },
+            settings = KeyedReplicaSettings(maxCount = 5)
         ) { id ->
             api.getCoinDetailsById(id).toDomain()
         }
