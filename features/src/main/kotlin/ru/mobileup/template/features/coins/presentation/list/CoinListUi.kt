@@ -15,6 +15,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -34,8 +35,8 @@ internal fun CoinListUi(
     component: CoinListComponent,
     modifier: Modifier = Modifier,
 ) {
-    val coinsState = component.coinsState.collectAsState()
-    val selectedCurrency = component.selectedCurrency.collectAsState()
+    val coinsState by component.coinsState.collectAsState()
+    val selectedCurrency by component.selectedCurrency.collectAsState()
 
     Surface(
         modifier = modifier
@@ -45,19 +46,19 @@ internal fun CoinListUi(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             CoinCurrencyTopBar(
-                selectedCurrency = selectedCurrency.value,
+                selectedCurrency = selectedCurrency,
                 currencies = component.currencies,
                 onChipClick = component::onCurrencyClick
             )
             PullRefreshLceWidget(
-                state = coinsState.value,
+                state = coinsState,
                 onRefresh = component::onRefresh,
                 onRetryClick = component::onRetryClick
             ) { coins, refreshing ->
                 if (coins.isNotEmpty()) {
                     CoinsListContent(
                         coins = coins,
-                        selectedCurrency = selectedCurrency.value,
+                        selectedCurrency = selectedCurrency,
                         onCoinClick = component::onCoinClick
                     )
                 } else {
