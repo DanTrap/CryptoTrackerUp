@@ -1,9 +1,9 @@
 package ru.mobileup.template.features.coins.presentation.list
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -98,7 +99,6 @@ private fun CoinCurrencyTopBar(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun CurrencyChipsRow(
     selectedCurrency: Currency,
@@ -106,8 +106,8 @@ private fun CurrencyChipsRow(
     onChipClick: (Currency) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    FlowRow(
-        modifier = modifier,
+    Row(
+        modifier = modifier.horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
     ) {
         currencies.forEach { currency ->
