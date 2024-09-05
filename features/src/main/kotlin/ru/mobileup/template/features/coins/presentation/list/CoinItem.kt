@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,34 +33,32 @@ internal fun CoinItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Surface(
-        modifier = modifier.clickable(onClick = onClick)
+    Row(
+        modifier = modifier
+            .clickable(onClick = onClick)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            AsyncImage(
-                modifier = Modifier.size(48.dp),
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(coin.image)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = coin.name,
-                contentScale = ContentScale.Crop
-            )
-            CoinDetails(
-                modifier = Modifier.weight(1f),
-                name = coin.name,
-                symbol = coin.symbol
-            )
-            CoinPriceDetails(
-                currentPrice = coin.currentPrice,
-                currency = currency,
-                priceChangePercentage24h = coin.priceChangePercentage24h
-            )
-        }
+        AsyncImage(
+            modifier = Modifier.size(48.dp),
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(coin.image)
+                .crossfade(true)
+                .build(),
+            contentDescription = coin.name,
+            contentScale = ContentScale.Crop
+        )
+        CoinDetails(
+            modifier = Modifier.weight(1f),
+            name = coin.name,
+            symbol = coin.symbol
+        )
+        CoinPriceDetails(
+            currentPrice = coin.currentPrice,
+            currency = currency,
+            priceChangePercentage24h = coin.priceChangePercentage24h
+        )
     }
 }
 

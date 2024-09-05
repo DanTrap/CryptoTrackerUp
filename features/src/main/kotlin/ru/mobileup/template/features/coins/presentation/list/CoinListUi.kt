@@ -1,5 +1,6 @@
 package ru.mobileup.template.features.coins.presentation.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -50,36 +51,34 @@ internal fun CoinListUi(
         )
     }
 
-    Surface(
+    Column(
         modifier = modifier
             .fillMaxSize()
-            .navigationBarsPadding(),
-        color = CustomTheme.colors.background.screen
+            .background(CustomTheme.colors.background.screen)
+            .navigationBarsPadding()
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            CoinCurrencyTopBar(
-                selectedCurrency = selectedCurrency,
-                currencies = component.currencies,
-                onChipClick = component::onCurrencyClick
-            )
-            PullRefreshLceWidget(
-                state = coinsPagedState,
-                onRefresh = component::onRefresh,
-                onRetryClick = component::onRetryClick
-            ) { pagedCoins, refreshing ->
-                if (pagedCoins.coins.isNotEmpty()) {
-                    CoinsListContent(
-                        coins = pagedCoins.coins,
-                        lazyListState = lazyListState,
-                        selectedCurrency = selectedCurrency,
-                        onCoinClick = component::onCoinClick,
-                        showBottomProgressIndicator = coinsPagedState.loadingStatus == PagedLoadingStatus.LoadingNextPage
-                    )
-                } else {
-                    EmptyPlaceholder(description = stringResource(R.string.coins_empty_description))
-                }
-                RefreshingProgress(refreshing)
+        CoinCurrencyTopBar(
+            selectedCurrency = selectedCurrency,
+            currencies = component.currencies,
+            onChipClick = component::onCurrencyClick
+        )
+        PullRefreshLceWidget(
+            state = coinsPagedState,
+            onRefresh = component::onRefresh,
+            onRetryClick = component::onRetryClick
+        ) { pagedCoins, refreshing ->
+            if (pagedCoins.coins.isNotEmpty()) {
+                CoinsListContent(
+                    coins = pagedCoins.coins,
+                    lazyListState = lazyListState,
+                    selectedCurrency = selectedCurrency,
+                    onCoinClick = component::onCoinClick,
+                    showBottomProgressIndicator = coinsPagedState.loadingStatus == PagedLoadingStatus.LoadingNextPage
+                )
+            } else {
+                EmptyPlaceholder(description = stringResource(R.string.coins_empty_description))
             }
+            RefreshingProgress(refreshing)
         }
     }
 }
@@ -96,7 +95,11 @@ private fun CoinCurrencyTopBar(
         color = CustomTheme.colors.background.screen,
         shadowElevation = 4.dp
     ) {
-        Column(modifier = Modifier.statusBarsPadding()) {
+        Column(
+            modifier = Modifier
+                .statusBarsPadding()
+                .fillMaxWidth()
+        ) {
             Text(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp),
                 text = stringResource(R.string.list_of_cryptocurrencies),
