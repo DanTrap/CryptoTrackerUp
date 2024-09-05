@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import me.aartikov.replica.decompose.observe
+import me.aartikov.replica.paged.Page
 import me.aartikov.replica.paged.Paged
 import me.aartikov.replica.paged.PagedLoadingStatus
 import me.aartikov.replica.paged.PagedReplica
@@ -64,3 +65,9 @@ fun <T : Any> Paged<T>.toPagedState(): PagedState<T> {
         error = error?.exception?.errorMessage
     )
 }
+
+data class SimplePage<out I : Any>(
+    override val items: List<I>,
+    override val hasNextPage: Boolean,
+    override val hasPreviousPage: Boolean = false,
+) : Page<I>
