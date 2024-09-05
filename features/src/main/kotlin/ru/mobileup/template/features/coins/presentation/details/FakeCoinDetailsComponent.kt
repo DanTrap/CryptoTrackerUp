@@ -8,10 +8,7 @@ import ru.mobileup.template.features.coins.domain.CoinDetails
 class FakeCoinDetailsComponent : CoinDetailsComponent {
 
     override val coinDetailsState: StateFlow<LoadableState<CoinDetails>> = MutableStateFlow(
-        LoadableState(
-            loading = true,
-            data = CoinDetails.MOCK
-        )
+        LoadableState(data = CoinDetails.MOCK)
     )
 
     override fun onRetryClick() = Unit
