@@ -1,9 +1,11 @@
 package ru.mobileup.template.features.coins.presentation.list
 
 import kotlinx.coroutines.flow.MutableStateFlow
-import ru.mobileup.template.core.utils.LoadableState
+import kotlinx.coroutines.flow.StateFlow
+import ru.mobileup.template.core.utils.PagedState
 import ru.mobileup.template.features.coins.domain.Coin
 import ru.mobileup.template.features.coins.domain.Currency
+import ru.mobileup.template.features.coins.domain.PagedCoins
 
 class FakeCoinListComponent : CoinListComponent {
 
@@ -11,10 +13,12 @@ class FakeCoinListComponent : CoinListComponent {
 
     override val selectedCurrency = MutableStateFlow(currencies[0])
 
-    override val coinsState = MutableStateFlow(
-        LoadableState(
-            loading = true,
-            data = Coin.MOCKS
+    override val coinsPagedState: StateFlow<PagedState<PagedCoins>> = MutableStateFlow(
+        PagedState(
+            data = PagedCoins(
+                coins = Coin.MOCKS,
+                hasNextPage = true
+            )
         )
     )
 
@@ -25,4 +29,6 @@ class FakeCoinListComponent : CoinListComponent {
     override fun onRetryClick() = Unit
 
     override fun onRefresh() = Unit
+
+    override fun onLoadNext() = Unit
 }

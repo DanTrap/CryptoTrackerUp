@@ -3,8 +3,7 @@ package ru.mobileup.template.features.coins.presentation.list
 import com.arkivanov.decompose.ComponentContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.Serializable
-import me.aartikov.replica.algebra.normal.withKey
-import me.aartikov.replica.keyed.keepPreviousData
+import me.aartikov.replica.algebra.paged.withKey
 import ru.mobileup.template.core.error_handling.ErrorHandler
 import ru.mobileup.template.core.utils.observe
 import ru.mobileup.template.core.utils.persistent
@@ -34,10 +33,9 @@ class RealCoinListComponent(
 
     override val selectedCurrency = MutableStateFlow(currencies[0])
 
-    private val coinsReplica = coinRepository.coinsReplica
-        .keepPreviousData().withKey(selectedCurrency)
+    private val coinsPagedReplica = coinRepository.coinsPagedReplica.withKey(selectedCurrency)
 
-    override val coinsState = coinsReplica.observe(this, errorHandler)
+    override val coinsPagedState = coinsPagedReplica.observe(this, errorHandler)
 
     override fun onCurrencyClick(currency: Currency) {
         selectedCurrency.value = currency
@@ -48,11 +46,15 @@ class RealCoinListComponent(
     }
 
     override fun onRetryClick() {
-        coinsReplica.refresh()
+        coinsPagedReplica.refresh()
     }
 
     override fun onRefresh() {
-        coinsReplica.refresh()
+        coinsPagedReplica.refresh()
+    }
+
+    override fun onLoadNext() {
+        coinsPagedReplica.loadNext()
     }
 
     @Serializable

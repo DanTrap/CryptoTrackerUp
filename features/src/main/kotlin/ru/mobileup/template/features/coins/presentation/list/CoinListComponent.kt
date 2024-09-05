@@ -1,9 +1,9 @@
 package ru.mobileup.template.features.coins.presentation.list
 
 import kotlinx.coroutines.flow.StateFlow
-import ru.mobileup.template.core.utils.LoadableState
-import ru.mobileup.template.features.coins.domain.Coin
+import ru.mobileup.template.core.utils.PagedState
 import ru.mobileup.template.features.coins.domain.Currency
+import ru.mobileup.template.features.coins.domain.PagedCoins
 
 interface CoinListComponent {
 
@@ -11,7 +11,7 @@ interface CoinListComponent {
 
     val selectedCurrency: StateFlow<Currency>
 
-    val coinsState: StateFlow<LoadableState<List<Coin>>>
+    val coinsPagedState: StateFlow<PagedState<PagedCoins>>
 
     fun onCurrencyClick(currency: Currency)
 
@@ -20,6 +20,8 @@ interface CoinListComponent {
     fun onRetryClick()
 
     fun onRefresh()
+
+    fun onLoadNext()
 
     sealed interface Output {
         data class CoinDetailsRequested(val coinId: String) : Output
