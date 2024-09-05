@@ -23,6 +23,10 @@ class CoinRepositoryImpl(
     api: CoinApi,
 ) : CoinRepository {
 
+    companion object {
+        private const val PAGE_SIZE = 30
+    }
+
     override val coinsPagedReplica: KeyedPagedReplica<Currency, PagedCoins> =
         replicaClient.createKeyedPagedReplica(
             name = "coinsPaged",
@@ -31,16 +35,11 @@ class CoinRepositoryImpl(
             idExtractor = { it.id },
             fetcher = object : KeyedPagedFetcher<Currency, Coin, CoinPage> {
 
-                private var currentPage: Int = 1
-                private val itemsPerPage: Int = 30
-
                 override suspend fun fetchFirstPage(key: Currency): CoinPage {
-                    currentPage = 1
-
                     val coins = api.getCoins(
                         currency = key.name.lowercase(),
-                        page = currentPage,
-                        itemsPerPage = itemsPerPage
+                        page = 1,
+                        itemsPerPage = PAGE_SIZE
                     ).map { it.toDomain() }
 
                     return CoinPage(items = coins, hasNextPage = true)
@@ -50,19 +49,17 @@ class CoinRepositoryImpl(
                     key: Currency,
                     currentData: PagedData<Coin, CoinPage>,
                 ): CoinPage {
-                    val nextPage = currentPage + 1
+                    val nextPage = currentData.items.size / PAGE_SIZE + 1
 
                     val coins = api.getCoins(
                         currency = key.name.lowercase(),
                         page = nextPage,
-                        itemsPerPage = itemsPerPage
+                        itemsPerPage = PAGE_SIZE
                     ).map { it.toDomain() }
-
-                    currentPage = nextPage
 
                     return CoinPage(
                         items = coins,
-                        hasNextPage = coins.size == itemsPerPage || coins.isNotEmpty()
+                        hasNextPage = coins.size == PAGE_SIZE || coins.isNotEmpty()
                     )
                 }
             }
