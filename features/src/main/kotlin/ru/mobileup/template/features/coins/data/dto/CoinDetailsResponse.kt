@@ -2,6 +2,7 @@ package ru.mobileup.template.features.coins.data.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import ru.mobileup.template.core.utils.fromHtml
 import ru.mobileup.template.features.coins.domain.CoinDetails
 import ru.mobileup.template.features.coins.domain.CoinDetailsId
 
@@ -20,7 +21,7 @@ data class CoinDetailsResponse(
             symbol = symbol,
             name = name,
             categories = categories,
-            description = description.en.formatDescription(),
+            description = description.en.fromHtml(),
             image = image.large
         )
     }
