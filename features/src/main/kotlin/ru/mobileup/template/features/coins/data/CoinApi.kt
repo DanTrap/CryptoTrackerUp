@@ -11,7 +11,8 @@ interface CoinApi {
     @GET("api/v3/coins/markets")
     suspend fun getCoins(
         @Query("vs_currency") currency: String,
-        @Query("per_page") itemsPerPage: Int = 30,
+        @Query("page") page: Int,
+        @Query("per_page") itemsPerPage: Int,
     ): List<CoinResponse>
 
     @GET("api/v3/coins/{id}")

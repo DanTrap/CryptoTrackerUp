@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,8 +25,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import me.aartikov.replica.paged.PagedLoadingStatus
 import ru.mobileup.template.core.theme.AppTheme
 import ru.mobileup.template.core.theme.custom.CustomTheme
+import ru.mobileup.template.core.utils.triggerLoadNext
 import ru.mobileup.template.core.widget.EmptyPlaceholder
 import ru.mobileup.template.core.widget.PullRefreshLceWidget
 import ru.mobileup.template.core.widget.RefreshingProgress
@@ -36,8 +41,14 @@ internal fun CoinListUi(
     component: CoinListComponent,
     modifier: Modifier = Modifier,
 ) {
-    val coinsState by component.coinsState.collectAsState()
     val selectedCurrency by component.selectedCurrency.collectAsState()
+    val coinsPagedState by component.coinsPagedState.collectAsState()
+    val lazyListState = rememberLazyListState().apply {
+        triggerLoadNext(
+            hasNextPage = coinsPagedState.data?.hasNextPage ?: false,
+            onLoadNext = component::onLoadNext
+        )
+    }
 
     Surface(
         modifier = modifier
@@ -52,15 +63,17 @@ internal fun CoinListUi(
                 onChipClick = component::onCurrencyClick
             )
             PullRefreshLceWidget(
-                state = coinsState,
+                state = coinsPagedState,
                 onRefresh = component::onRefresh,
                 onRetryClick = component::onRetryClick
-            ) { coins, refreshing ->
-                if (coins.isNotEmpty()) {
+            ) { pagedCoins, refreshing ->
+                if (pagedCoins.coins.isNotEmpty()) {
                     CoinsListContent(
-                        coins = coins,
+                        coins = pagedCoins.coins,
+                        lazyListState = lazyListState,
                         selectedCurrency = selectedCurrency,
-                        onCoinClick = component::onCoinClick
+                        onCoinClick = component::onCoinClick,
+                        showBottomProgressIndicator = coinsPagedState.loadingStatus == PagedLoadingStatus.LoadingNextPage
                     )
                 } else {
                     EmptyPlaceholder(description = stringResource(R.string.coins_empty_description))
@@ -122,13 +135,16 @@ private fun CurrencyChipsRow(
 
 @Composable
 private fun CoinsListContent(
+    lazyListState: LazyListState,
     coins: List<Coin>,
     selectedCurrency: Currency,
     onCoinClick: (id: String) -> Unit,
     modifier: Modifier = Modifier,
+    showBottomProgressIndicator: Boolean = false,
 ) {
     LazyColumn(
         modifier = modifier,
+        state = lazyListState,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         items(coins, key = { it.id }) { coin ->
@@ -138,6 +154,11 @@ private fun CoinsListContent(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { onCoinClick(coin.id) }
             )
+        }
+        if (showBottomProgressIndicator) {
+            item {
+                CircularProgressIndicator()
+            }
         }
     }
 }
