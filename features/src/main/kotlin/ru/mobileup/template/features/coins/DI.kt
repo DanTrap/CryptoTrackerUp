@@ -10,6 +10,8 @@ import ru.mobileup.template.features.coins.data.CoinRepository
 import ru.mobileup.template.features.coins.data.CoinRepositoryImpl
 import ru.mobileup.template.features.coins.presentation.CoinsComponent
 import ru.mobileup.template.features.coins.presentation.RealCoinsComponent
+import ru.mobileup.template.features.coins.presentation.details.CoinDetailsComponent
+import ru.mobileup.template.features.coins.presentation.details.RealCoinDetailsComponent
 import ru.mobileup.template.features.coins.presentation.list.CoinListComponent
 import ru.mobileup.template.features.coins.presentation.list.RealCoinListComponent
 
@@ -28,5 +30,12 @@ fun ComponentFactory.createCoinListComponent(
     componentContext: ComponentContext,
     onOutput: (CoinListComponent.Output) -> Unit,
 ): CoinListComponent {
-    return RealCoinListComponent(componentContext, get(), get(), onOutput)
+    return RealCoinListComponent(componentContext, onOutput, get(), get())
+}
+
+fun ComponentFactory.createCoinDetailsComponent(
+    componentContext: ComponentContext,
+    coinId: String,
+): CoinDetailsComponent {
+    return RealCoinDetailsComponent(componentContext, coinId, get(), get())
 }

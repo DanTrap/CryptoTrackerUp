@@ -13,9 +13,9 @@ import ru.mobileup.template.features.coins.domain.Currency
 
 class RealCoinListComponent(
     componentContext: ComponentContext,
+    private val onOutput: (CoinListComponent.Output) -> Unit,
     coinRepository: CoinRepository,
     errorHandler: ErrorHandler,
-    private val onOutput: (CoinListComponent.Output) -> Unit,
 ) : ComponentContext by componentContext, CoinListComponent {
 
     init {
@@ -34,7 +34,7 @@ class RealCoinListComponent(
 
     override val selectedCurrency = MutableStateFlow(currencies[0])
 
-    private val coinsReplica = coinRepository.coins
+    private val coinsReplica = coinRepository.coinsReplica
         .keepPreviousData().withKey(selectedCurrency)
 
     override val coinsState = coinsReplica.observe(this, errorHandler)
