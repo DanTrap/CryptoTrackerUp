@@ -9,7 +9,6 @@ import me.aartikov.replica.keyed_paged.KeyedPagedReplica
 import me.aartikov.replica.paged.PagedData
 import me.aartikov.replica.paged.PagedReplicaSettings
 import me.aartikov.replica.single.ReplicaSettings
-import ru.mobileup.template.core.utils.SimplePage
 import ru.mobileup.template.features.coins.data.dto.CoinDetailsResponse.Companion.toDomain
 import ru.mobileup.template.features.coins.data.dto.CoinResponse.Companion.toDomain
 import ru.mobileup.template.features.coins.domain.Coin
@@ -18,8 +17,6 @@ import ru.mobileup.template.features.coins.domain.Currency
 import ru.mobileup.template.features.coins.domain.PagedCoins
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
-
-typealias CoinPage = SimplePage<Coin>
 
 class CoinRepositoryImpl(
     replicaClient: ReplicaClient,
