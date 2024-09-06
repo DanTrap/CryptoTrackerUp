@@ -15,7 +15,7 @@ interface CoinListComponent {
 
     fun onCurrencyClick(currency: Currency)
 
-    fun onCoinClick(coinId: String)
+    fun onCoinClick(coinId: CoinId)
 
     fun onRetryClick()
 
@@ -24,6 +24,6 @@ interface CoinListComponent {
     fun onLoadNext()
 
     sealed interface Output {
-        data class CoinDetailsRequested(val coinId: String) : Output
+        data class CoinDetailsRequested(val coinId: CoinId) : Output
     }
 }

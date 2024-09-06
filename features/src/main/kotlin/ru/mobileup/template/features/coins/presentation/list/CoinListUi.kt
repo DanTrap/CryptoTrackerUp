@@ -141,7 +141,7 @@ private fun CoinsListContent(
     lazyListState: LazyListState,
     coins: List<Coin>,
     selectedCurrency: Currency,
-    onCoinClick: (id: String) -> Unit,
+    onCoinClick: (id: CoinId) -> Unit,
     modifier: Modifier = Modifier,
     showBottomProgressIndicator: Boolean = false,
 ) {

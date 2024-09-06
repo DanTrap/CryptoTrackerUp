@@ -41,7 +41,7 @@ class RealCoinListComponent(
         selectedCurrency.value = currency
     }
 
-    override fun onCoinClick(coinId: String) {
+    override fun onCoinClick(coinId: CoinId) {
         onOutput(CoinListComponent.Output.CoinDetailsRequested(coinId))
     }
 

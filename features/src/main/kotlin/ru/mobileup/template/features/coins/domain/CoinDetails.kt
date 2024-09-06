@@ -1,13 +1,7 @@
 package ru.mobileup.template.features.coins.domain
 
-import kotlinx.serialization.Serializable
-
-@Serializable
-@JvmInline
-value class CoinDetailsId(val value: String)
-
 data class CoinDetails(
-    val id: CoinDetailsId,
+    val id: CoinId,
     val symbol: String,
     val name: String,
     val categories: List<String>,
@@ -16,7 +10,7 @@ data class CoinDetails(
 ) {
     companion object {
         val MOCK = CoinDetails(
-            id = CoinDetailsId("bitcoin"),
+            id = CoinId("bitcoin"),
             symbol = "BTC",
             name = "Bitcoin",
             image = "",
