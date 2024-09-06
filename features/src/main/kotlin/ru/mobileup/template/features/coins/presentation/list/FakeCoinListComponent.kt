@@ -35,7 +35,9 @@ class FakeCoinListComponent : CoinListComponent {
 
     override fun onCoinClick(coinId: CoinId) = Unit
 
-    override fun onRetryClick() = Unit
+    override fun onRetryCoinsListClick() = Unit
+
+    override fun onRetryCoinsSearchClick() = Unit
 
     override fun onRefresh() = Unit
 

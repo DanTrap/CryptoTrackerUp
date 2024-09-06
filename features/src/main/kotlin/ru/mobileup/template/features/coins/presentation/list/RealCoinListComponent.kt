@@ -74,8 +74,12 @@ class RealCoinListComponent(
         onOutput(CoinListComponent.Output.CoinDetailsRequested(coinId))
     }
 
-    override fun onRetryClick() {
+    override fun onRetryCoinsListClick() {
         coinsPagedReplica.refresh()
+    }
+
+    override fun onRetryCoinsSearchClick() {
+        coinsSearchReplica.refresh()
     }
 
     override fun onRefresh() {

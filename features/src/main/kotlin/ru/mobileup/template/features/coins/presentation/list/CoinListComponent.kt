@@ -25,7 +25,9 @@ interface CoinListComponent {
 
     fun onCoinClick(coinId: CoinId)
 
-    fun onRetryClick()
+    fun onRetryCoinsListClick()
+
+    fun onRetryCoinsSearchClick()
 
     fun onRefresh()
 
