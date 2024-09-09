@@ -11,7 +11,8 @@ import me.aartikov.replica.paged.PagedReplicaSettings
 import me.aartikov.replica.single.ReplicaSettings
 import ru.mobileup.template.features.coins.data.dto.CoinDetailsResponse.Companion.toDomain
 import ru.mobileup.template.features.coins.data.dto.CoinResponse.Companion.toDomain
-import ru.mobileup.template.features.coins.data.dto.CoinSearchDto.Companion.toDomain
+import ru.mobileup.template.features.coins.data.dto.CoinSearchDto
+import ru.mobileup.template.features.coins.data.dto.toDomain
 import ru.mobileup.template.features.coins.domain.Coin
 import ru.mobileup.template.features.coins.domain.CoinDetails
 import ru.mobileup.template.features.coins.domain.CoinId
@@ -96,6 +97,6 @@ class CoinRepositoryImpl(
                 )
             },
         ) { query ->
-            api.getCoinsByQuery(query).coins.map { it.toDomain() }
+            api.getCoinsByQuery(query).coins.map(CoinSearchDto::toDomain)
         }
 }
