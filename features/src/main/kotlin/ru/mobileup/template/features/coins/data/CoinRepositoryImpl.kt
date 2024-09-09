@@ -14,6 +14,7 @@ import ru.mobileup.template.features.coins.data.dto.CoinResponse.Companion.toDom
 import ru.mobileup.template.features.coins.data.dto.CoinSearchDto.Companion.toDomain
 import ru.mobileup.template.features.coins.domain.Coin
 import ru.mobileup.template.features.coins.domain.CoinDetails
+import ru.mobileup.template.features.coins.domain.CoinId
 import ru.mobileup.template.features.coins.domain.CoinSearch
 import ru.mobileup.template.features.coins.domain.Currency
 import ru.mobileup.template.features.coins.domain.PagedCoins
@@ -69,7 +70,7 @@ class CoinRepositoryImpl(
             PagedCoins(pagedData.items, hasNextPage = pagedData.hasNextPage)
         }
 
-    override val coinDetailsReplica: KeyedPhysicalReplica<String, CoinDetails> =
+    override val coinDetailsReplica: KeyedPhysicalReplica<CoinId, CoinDetails> =
         replicaClient.createKeyedReplica(
             name = "coinDetailsById",
             childName = { id -> "id = $id" },
@@ -81,7 +82,7 @@ class CoinRepositoryImpl(
             },
             settings = KeyedReplicaSettings(maxCount = 5)
         ) { id ->
-            api.getCoinDetailsById(id).toDomain()
+            api.getCoinDetailsById(id.value).toDomain()
         }
 
     override val coinsSearchReplica: KeyedPhysicalReplica<String, List<CoinSearch>> =
