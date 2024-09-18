@@ -11,8 +11,12 @@ import me.aartikov.replica.paged.PagedReplicaSettings
 import me.aartikov.replica.single.ReplicaSettings
 import ru.mobileup.template.features.coins.data.dto.CoinDetailsResponse.Companion.toDomain
 import ru.mobileup.template.features.coins.data.dto.CoinResponse.Companion.toDomain
+import ru.mobileup.template.features.coins.data.dto.CoinSearchDto
+import ru.mobileup.template.features.coins.data.dto.toDomain
 import ru.mobileup.template.features.coins.domain.Coin
 import ru.mobileup.template.features.coins.domain.CoinDetails
+import ru.mobileup.template.features.coins.domain.CoinId
+import ru.mobileup.template.features.coins.domain.CoinSearch
 import ru.mobileup.template.features.coins.domain.Currency
 import ru.mobileup.template.features.coins.domain.PagedCoins
 import kotlin.time.Duration.Companion.minutes
@@ -67,7 +71,7 @@ class CoinRepositoryImpl(
             PagedCoins(pagedData.items, hasNextPage = pagedData.hasNextPage)
         }
 
-    override val coinDetailsReplica: KeyedPhysicalReplica<String, CoinDetails> =
+    override val coinDetailsReplica: KeyedPhysicalReplica<CoinId, CoinDetails> =
         replicaClient.createKeyedReplica(
             name = "coinDetailsById",
             childName = { id -> "id = $id" },
@@ -79,6 +83,20 @@ class CoinRepositoryImpl(
             },
             settings = KeyedReplicaSettings(maxCount = 5)
         ) { id ->
-            api.getCoinDetailsById(id).toDomain()
+            api.getCoinDetailsById(id.value).toDomain()
+        }
+
+    override val coinsSearchReplica: KeyedPhysicalReplica<String, List<CoinSearch>> =
+        replicaClient.createKeyedReplica(
+            name = "coinsSearch",
+            childName = { query -> "query = $query" },
+            childSettings = {
+                ReplicaSettings(
+                    staleTime = 10.minutes,
+                    clearTime = 60.seconds
+                )
+            },
+        ) { query ->
+            api.getCoinsByQuery(query).coins.map(CoinSearchDto::toDomain)
         }
 }
