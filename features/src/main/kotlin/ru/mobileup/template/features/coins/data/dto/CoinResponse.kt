@@ -3,6 +3,7 @@ package ru.mobileup.template.features.coins.data.dto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import ru.mobileup.template.features.coins.domain.Coin
+import ru.mobileup.template.features.coins.domain.CoinId
 
 @Serializable
 data class CoinResponse(
@@ -15,7 +16,7 @@ data class CoinResponse(
 ) {
     companion object {
         fun CoinResponse.toDomain(): Coin = Coin(
-            id = id,
+            id = CoinId(id),
             name = name,
             symbol = symbol.uppercase(),
             image = image,

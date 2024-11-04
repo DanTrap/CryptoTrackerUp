@@ -8,6 +8,7 @@ import ru.mobileup.template.core.network.NetworkApiFactory
 import ru.mobileup.template.features.coins.data.CoinApi
 import ru.mobileup.template.features.coins.data.CoinRepository
 import ru.mobileup.template.features.coins.data.CoinRepositoryImpl
+import ru.mobileup.template.features.coins.domain.CoinId
 import ru.mobileup.template.features.coins.presentation.CoinsComponent
 import ru.mobileup.template.features.coins.presentation.RealCoinsComponent
 import ru.mobileup.template.features.coins.presentation.details.CoinDetailsComponent
@@ -35,7 +36,7 @@ fun ComponentFactory.createCoinListComponent(
 
 fun ComponentFactory.createCoinDetailsComponent(
     componentContext: ComponentContext,
-    coinId: String,
+    coinId: CoinId,
 ): CoinDetailsComponent {
     return RealCoinDetailsComponent(componentContext, coinId, get(), get())
 }

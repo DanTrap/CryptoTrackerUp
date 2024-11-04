@@ -29,13 +29,20 @@ import androidx.compose.ui.unit.dp
 import me.aartikov.replica.paged.PagedLoadingStatus
 import ru.mobileup.template.core.theme.AppTheme
 import ru.mobileup.template.core.theme.custom.CustomTheme
+import ru.mobileup.template.core.utils.LoadableState
+import ru.mobileup.template.core.utils.PagedState
 import ru.mobileup.template.core.utils.triggerLoadNext
 import ru.mobileup.template.core.widget.EmptyPlaceholder
+import ru.mobileup.template.core.widget.LceWidget
 import ru.mobileup.template.core.widget.PullRefreshLceWidget
 import ru.mobileup.template.core.widget.RefreshingProgress
 import ru.mobileup.template.features.R
 import ru.mobileup.template.features.coins.domain.Coin
+import ru.mobileup.template.features.coins.domain.CoinId
+import ru.mobileup.template.features.coins.domain.CoinSearch
 import ru.mobileup.template.features.coins.domain.Currency
+import ru.mobileup.template.features.coins.domain.PagedCoins
+import ru.mobileup.template.features.coins.presentation.search.CoinsSearchUi
 
 @Composable
 internal fun CoinListUi(
@@ -44,6 +51,7 @@ internal fun CoinListUi(
 ) {
     val selectedCurrency by component.selectedCurrency.collectAsState()
     val coinsPagedState by component.coinsPagedState.collectAsState()
+    val coinsSearchState by component.coinsSearchState.collectAsState()
     val lazyListState = rememberLazyListState().apply {
         triggerLoadNext(
             hasNextPage = coinsPagedState.data?.hasNextPage ?: false,
@@ -62,24 +70,83 @@ internal fun CoinListUi(
             currencies = component.currencies,
             onChipClick = component::onCurrencyClick
         )
-        PullRefreshLceWidget(
-            state = coinsPagedState,
-            onRefresh = component::onRefresh,
-            onRetryClick = component::onRetryClick
-        ) { pagedCoins, refreshing ->
-            if (pagedCoins.coins.isNotEmpty()) {
-                CoinsListContent(
-                    coins = pagedCoins.coins,
-                    lazyListState = lazyListState,
-                    selectedCurrency = selectedCurrency,
-                    onCoinClick = component::onCoinClick,
-                    showBottomProgressIndicator = coinsPagedState.loadingStatus == PagedLoadingStatus.LoadingNextPage
-                )
-            } else {
-                EmptyPlaceholder(description = stringResource(R.string.coins_empty_description))
-            }
-            RefreshingProgress(refreshing)
+        CoinsSearchUi(
+            component = component.searchComponent,
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp)
+        )
+        when (coinsSearchState.data?.isEmpty()) {
+            true -> PullRefreshCoinsList(
+                component = component,
+                coinsPagedState = coinsPagedState,
+                lazyListState = lazyListState,
+                selectedCurrency = selectedCurrency
+            )
+
+            else -> CoinSearchContent(
+                state = coinsSearchState,
+                onRetryClick = component::onRetryCoinsSearchClick
+            )
         }
+    }
+}
+
+@Composable
+private fun PullRefreshCoinsList(
+    component: CoinListComponent,
+    coinsPagedState: PagedState<PagedCoins>,
+    lazyListState: LazyListState,
+    selectedCurrency: Currency,
+    modifier: Modifier = Modifier,
+) {
+    PullRefreshLceWidget(
+        modifier = modifier,
+        state = coinsPagedState,
+        onRefresh = component::onRefresh,
+        onRetryClick = component::onRetryCoinsListClick
+    ) { pagedCoins, refreshing ->
+        if (pagedCoins.coins.isNotEmpty()) {
+            CoinsListContent(
+                coins = pagedCoins.coins,
+                lazyListState = lazyListState,
+                selectedCurrency = selectedCurrency,
+                onCoinClick = component::onCoinClick,
+                showBottomProgressIndicator = coinsPagedState.loadingStatus == PagedLoadingStatus.LoadingNextPage
+            )
+        } else {
+            EmptyPlaceholder(description = stringResource(R.string.coins_empty_description))
+        }
+        RefreshingProgress(refreshing)
+    }
+}
+
+@Composable
+private fun CoinSearchContent(
+    state: LoadableState<List<CoinSearch>>,
+    onRetryClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LceWidget(
+        state = state,
+        onRetryClick = onRetryClick
+    ) { coins, refreshing ->
+        if (coins.isNotEmpty()) {
+            LazyColumn(
+                modifier = modifier,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                items(coins, key = { it.id.value }) { coin ->
+                    CoinSearchItem(
+                        coinSearch = coin,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            }
+        } else {
+            EmptyPlaceholder(description = stringResource(R.string.coins_empty_description))
+        }
+        RefreshingProgress(refreshing)
     }
 }
 
@@ -141,7 +208,7 @@ private fun CoinsListContent(
     lazyListState: LazyListState,
     coins: List<Coin>,
     selectedCurrency: Currency,
-    onCoinClick: (id: String) -> Unit,
+    onCoinClick: (id: CoinId) -> Unit,
     modifier: Modifier = Modifier,
     showBottomProgressIndicator: Boolean = false,
 ) {
@@ -150,7 +217,7 @@ private fun CoinsListContent(
         state = lazyListState,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        items(coins, key = { it.id }) { coin ->
+        items(coins, key = { it.id.value }) { coin ->
             CoinItem(
                 coin = coin,
                 currency = selectedCurrency,

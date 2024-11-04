@@ -25,6 +25,7 @@ import ru.mobileup.template.core.theme.custom.CustomTheme
 import ru.mobileup.template.features.R
 import ru.mobileup.template.features.coins.domain.Coin
 import ru.mobileup.template.features.coins.domain.Currency
+import ru.mobileup.template.features.coins.presentation.widget.CoinDetails
 
 @Composable
 internal fun CoinItem(
@@ -58,30 +59,6 @@ internal fun CoinItem(
             currentPrice = coin.currentPrice,
             currency = currency,
             priceChangePercentage24h = coin.priceChangePercentage24h
-        )
-    }
-}
-
-@Composable
-private fun CoinDetails(
-    name: String,
-    symbol: String,
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        Text(
-            text = name,
-            style = MaterialTheme.typography.titleLarge.copy(
-                fontWeight = FontWeight.Bold,
-                color = CustomTheme.colors.text.primary
-            )
-        )
-        Text(
-            text = symbol,
-            style = MaterialTheme.typography.bodyLarge.copy(color = CustomTheme.colors.text.secondary)
         )
     }
 }

@@ -9,6 +9,7 @@ import ru.mobileup.template.core.ComponentFactory
 import ru.mobileup.template.core.utils.toStateFlow
 import ru.mobileup.template.features.coins.createCoinDetailsComponent
 import ru.mobileup.template.features.coins.createCoinListComponent
+import ru.mobileup.template.features.coins.domain.CoinId
 import ru.mobileup.template.features.coins.presentation.list.CoinListComponent
 
 internal class RealCoinsComponent(
@@ -58,6 +59,6 @@ internal class RealCoinsComponent(
         data object List : ChildConfig
 
         @Serializable
-        data class Details(val coinId: String) : ChildConfig
+        data class Details(val coinId: CoinId) : ChildConfig
     }
 }
